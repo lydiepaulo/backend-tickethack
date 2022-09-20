@@ -1,10 +1,13 @@
+require('dotenv').config();
+
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var bookingsRouter = require('./routes/bookings');
+var paniersRouter = require('./routes/paniers');
 
 var app = express();
 const cors = require('cors');
@@ -17,6 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/bookings', bookingsRouter);
+app.use('/paniers', paniersRouter);
 
 module.exports = app;
