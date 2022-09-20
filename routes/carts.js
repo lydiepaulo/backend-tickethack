@@ -8,9 +8,9 @@ const Booking = require('../models/bookings')
 
 //save search to cart if not exists
 
-router.post('/carts/adding', (req, res) => {
+router.post('/adding', (req, res) => {
     // Check if the city has not already been added
-    Trip.findbyId({id}).then(findInCart => {
+    Trip.findbyId(req.body.id).then(findInCart => {
       if (!findInCart) {
             const newTrip = new Cart({
               departure: departure,
