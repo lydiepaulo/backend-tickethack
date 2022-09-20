@@ -15,18 +15,11 @@ router.get('/', (req, res) => {
 
     //if completed
     else {
-        //formater la date
-        // const departureDate = req.body.date;
-        // day = parseInt(moment(departureDate).format('DD'));
-        // console.log(day)
-        // month = moment(departureDate).format('MM');
-        // year = moment(departureDate).format('YYYY');
-
-        //la comparer date à celle de la base de données
-
-        Trip.find({ departure: req.body.departure, arrival: req.body.arrival, date: req.body.date })
+        Trip.find({ departure: req.body.departure, arrival: req.body.arrival })
             .then(tripsData => {
-                res.json({ tripsData });
+                const departureDate = req.body.date;
+                let findDates = tripsData.filter(e => moment(e.date).format("DD/MM/YYYY") === departureDate)
+                res.json({ findDates })
             });
     }
 });
