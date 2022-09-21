@@ -6,7 +6,7 @@ const Trip = require('../models/trips');
 var moment = require('moment');
 
 
-router.get('/', (req, res) => {
+router.post('/', (req, res) => {
     //if all fields aren't completed
     if (!req.body.departure || !req.body.arrival || !req.body.date) {
         res.json({ result: false, error: 'Missing or empty fields' });
