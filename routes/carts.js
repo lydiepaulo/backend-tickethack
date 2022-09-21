@@ -10,8 +10,6 @@ var moment = require('moment');
 
 router.post('/adding', (req, res) => {
     // Check if the city has not already been added
-
-
     Cart.findOne({idTrip: req.body.idTrip}).then(findInCart => {
       if (!findInCart) {
             const newTrip = new Cart({
