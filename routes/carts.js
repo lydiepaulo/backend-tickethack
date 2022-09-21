@@ -3,21 +3,20 @@ var router = express.Router();
 require('../models/connection');
 const fetch = require('node-fetch');
 const Cart = require('../models/carts')
-const Trip = require('../models/carts')
+const Trip = require('../models/trips')
 const Booking = require('../models/bookings')
-
+var moment = require('moment');
 //save search to cart if not exists
 
 router.post('/adding', (req, res) => {
     // Check if the city has not already been added
-    Trip.findbyId(req.body.id).then(findInCart => {
+
+
+    Cart.findOne({idTrip: req.body.idTrip}).then(findInCart => {
       if (!findInCart) {
             const newTrip = new Cart({
-              departure: departure,
-              arrival: arrival,
-              date: date,
-              price : price,
-              payed : false,
+              idTrip: req.body.idTrip,
+
             });
             // Finally save in database
             newTrip.save().then(newTripSaved => {
@@ -26,7 +25,7 @@ router.post('/adding', (req, res) => {
           }
        else {
         // City already exists in database
-        res.json({ result: false, error: 'City already exists in cart' })
+        res.json({ result: false, error: 'Trip already added to the cart' })
       }
     })
 })
@@ -34,35 +33,28 @@ router.post('/adding', (req, res) => {
 
 //récupération du panier
 
-router.get('/carts', (req, res) => {
-    Cart.find({}).then(data => {	
+router.get('/', (req, res) => {
+    Cart.find().populate('idTrip').then(data => {	
         if (data){
-            res.json({ result: true, tripsCart: data })
+            res.json({tripsCart: data })
         }
         else{ res.json({ result: false, tripsCart: 'Cart is empty' })}
     })
 })
 
-router.delete('carts/pay', (req, res) => {
+router.delete('/pay', (req, res) => {
     const newBooking = new Booking({
-        departure: departure,
-        arrival: arrival,
-        date: date,
-        price : price,
-        payed : false,
+        idTrip: req.body.idTrip,
       });
       // Finally save in database
       newBooking.save().then(
-        res.json({ result: true, NewRegistration: newTripSaved }).then(
-    Cart.delete({}).then(deleletingWork => { 
+    Cart.deleteMany().then(deleletingWork => { 
         if(deleletingWork.deletedCount > 0){
-            res.json({ result: true, weather: data });
+            res.json({ result: true});
         }
         else {
-            res.json({ result: false, error: 'City not found' });
-          }})))
-
-    })
+            res.json({ result: false, error: 'Trip not found' });
+          }}))})
 
 
 //
