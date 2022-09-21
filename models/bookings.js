@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const bookingsSchema = mongoose.Schema({
-	idTrip: String,
+	idTrip : { type: mongoose.Schema.Types.ObjectId, ref: 'trips' }
 });
 
 const Booking = mongoose.model('bookings', bookingsSchema);
