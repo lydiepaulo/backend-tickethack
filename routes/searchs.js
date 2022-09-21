@@ -15,9 +15,10 @@ router.post('/', (req, res) => {
 
     //if completed
     else {
+        const departureDate = moment(req.body.date).format('DD/MM/YYYY');
         Trip.find({ departure: req.body.departure, arrival: req.body.arrival })
             .then(tripsData => {
-                const departureDate = req.body.date;
+                
                 let findDates = tripsData.filter(e => moment(e.date).format("DD/MM/YYYY") === departureDate)
                 res.json({ findDates })
             });

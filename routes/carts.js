@@ -52,7 +52,7 @@ router.delete('/pay', (req, res) => {
         if(deleletingWork.deletedCount > 0){
             res.json({ result: true});
         }
-        else {
+        else {  
             res.json({ result: false, error: 'Trip not found' });
           }}))})
 
